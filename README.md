@@ -4,7 +4,7 @@ This is a public repository of NEAR, an artifact removal pipeline for human newb
 
 There are two ways to install NEAR bad channel detection tool: <br />
 
-1) Use EEGLAB GUI (File - Manage EEGLAB Extensions - Search for NEAR - Install/Update). <br />
+1) Use EEGLAB GUI (File - Manage EEGLAB Extensions - Search for NEAR - Install/Update). NOTE: This option is not available yet (NEAR will be publicly linked to EEGLAB once the associated article will be published) <br />
 2) Download the project as .zip file. Extract the .zip file and place the folder "NEAR_ChannelRejection-master" in your EEGLAB/Plugins folder. 
 
 Installation check: Type 'help pop_NEAR.m' in the command window. If there's no error, you're good to go. <br />
