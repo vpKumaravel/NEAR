@@ -19,21 +19,21 @@ function [colors] = NEAR_plotBadChannels (EEG, red_chFlat, red_chLOF, yellow_chP
 %    red_chFlat               - List of flat-line channels
 %    red_chLOF                - List of LOF-detected outlier channels
 %    yellow_chPA              - List of Periodogram-detected outlier channels
-%
+
 %
 % Outputs:
 %    Plots the eeg data with color coded channels
 %    colors (optional)     - List of channel arrays with colors codes
-%
+
 %
 % Examples: 
 %    [colors] = NEAR_plotBadChannels (EEG, [1 3 5], [4],[124]);
 %    [colors] = NEAR_plotBadChannels (EEG, [1 3 5], [],[124]);
 %    [colors] = NEAR_plotBadChannels (EEG, [], [1 3 5],[124]);
 %
-%
+
 % See also: pop_chanremove.m, NEAR_getBadChannels.m 
-%
+
 % Author: Velu Prabhakar Kumaravel
 % PhD Student (FBK & CIMEC-UNITN, Trento, Italy)
 % email: velu.kumaravel@unitn.it

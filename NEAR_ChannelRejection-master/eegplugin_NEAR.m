@@ -4,15 +4,15 @@
 %   >> eegplugin_NEAR(fig,try_strings,catch_strings);
 %
 %   see also: pop_NEAR.m, NEAR_getBadChannels.m
-%
+
 % Author: Velu Prabhakar Kumaravel
 % PhD Student (FBK & CIMEC-UNITN, Trento, Italy)
 % email: velu.kumaravel@unitn.it
-%
-%
+
+
 % History:
 % 05/26/2021 ver 0.10 by Velu Prabhakar Kumaravel. Created.
-%
+
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
 % the Free Software Foundation; either version 2 of the License, or

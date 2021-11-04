@@ -1,8 +1,8 @@
-function [signal, red_chFlat, red_ch, yellow_ch, LOF_vec] = NEAR_getBadChannels(EEG, isFlat, flatWin, isLOF, thresh_lof, dist_metric, ...
+function [signal, red_chFlat, red_ch, yellow_ch, LOF_vec] = NEAR_getBadChannels(EEG, isFlat, flatWin, isLOF, thresh_lof, dist_metric,isAdapt, ...
                                                                                                     isPeriodogram, frange, winsize, winov, pthresh, isPlot)
 
 %NEAR_getBadChannels() - detect and remove bad channels in the EEG data
-%
+
 %
 % Syntax:  [signal, red_chFlat, red_ch, yellow_ch, LOF_vec] = NEAR_getBadChannels(EEG,Options,...)
 %
@@ -13,6 +13,8 @@ function [signal, red_chFlat, red_ch, yellow_ch, LOF_vec] = NEAR_getBadChannels(
 %    isLOF                    - Set to 1 to detect outlier channels in the data using Local Outlier Factor (LOF) method (Default: 1)
 %    thresh_lof               - Threshold to decide outlier channels (Default: 2.5)
 %    dist_metric              - Distance metric used in LOF algorithm (Default: sEuclidean)
+%    isAdapt                  - Maximum % of channels that can be removed. if the current thresh_lof removes more than this limit, thresh_lof
+%                               value will be incremented by 1 until LOF doesn't remove more than the given % of channels.
 %    isPeriodogram            - Set to 1 to detect outlier channels in the data using windowed Periodogram analysis (Default: 0)
 %    frange                   - Range of frequency values for periodogram analysis in the format [LowFreq HighFreq] in Hz (Default: [1 20] Hz)
 %    winsize                  - Window Length for periodogram analysis in s (Default: 1s)
@@ -33,16 +35,16 @@ function [signal, red_chFlat, red_ch, yellow_ch, LOF_vec] = NEAR_getBadChannels(
 %    [signal, red_chFlat, red_ch, yellow_ch, LOF_vec] =  NEAR_getBadChannels(EEG, 1, 5 , 0, [], [], 1,[20 40], 1, 0.66, 4.5)
 %
 % Other m-files required: cleanFlat.m, files related to LOF
-%
-%
+
+
 %
 % See also: pop_NEAR
-%
+
 % Author: Velu Prabhakar Kumaravel
 % PhD Student (FBK & CIMEC-UNITN, Trento, Italy)
 % email: velu.kumaravel@unitn.it
 % May 2021; Last revision: 19-May-2021
-%
+
 %% Code begins here 
     % variables declaration
 
@@ -101,18 +103,22 @@ function [signal, red_chFlat, red_ch, yellow_ch, LOF_vec] = NEAR_getBadChannels(
         
         disp('LOF scores are computed successfully');
         
-        % Adaptive Thresholding for LOF Bad Channel Detection
-        N = histcounts(LOF_vec,  [thresh_lof 100],'Normalization', 'probability')*100;
-        thresh_lof_update = thresh_lof;
-        while (N >= 10)
-            disp(['More than 10% of channels have an LOF of greater than ' num2str(thresh_lof_update)]);
-            disp('Increasing the threshold by 1');
-            thresh_lof_update = thresh_lof_update + 1;
-            N = histcounts(LOF_vec,  [thresh_lof_update 100],'Normalization', 'probability')*100;
+        if(isempty(isAdapt)) % no adaptive thresholding
+            lof_bad_ch = remaining_elec(LOF_vec >= thresh_lof);
+        else
+            % Adaptive Thresholding for LOF Bad Channel Detection
+            N = histcounts(LOF_vec,  [thresh_lof 100],'Normalization', 'probability')*100;
+            thresh_lof_update = thresh_lof;
+            while (N >= 10)
+                disp(['More than 10% of channels have an LOF of greater than ' num2str(thresh_lof_update)]);
+                disp('Increasing the threshold by 1');
+                thresh_lof_update = thresh_lof_update + 1;
+                N = histcounts(LOF_vec,  [thresh_lof_update 100],'Normalization', 'probability')*100;
+            end
+            
+            disp(['Adapted threshold  for this dataset is ' num2str(thresh_lof_update)]);
+            lof_bad_ch = remaining_elec(LOF_vec >= thresh_lof_update);
         end
-                
-        disp(['Adapted threshold  for this dataset is ' num2str(thresh_lof_update)]);
-        lof_bad_ch = remaining_elec(LOF_vec >= thresh_lof_update);
         
         if(~isempty(lof_bad_ch))
             red_ch = lof_bad_ch;

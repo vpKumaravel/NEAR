@@ -59,7 +59,6 @@ end
                                  if isempty(result)
                                      fprintf('Operation cancelled ...\n');
                                      OUTEEG = INEEG;
-                                     OUTEEG.BadCh = [];
                                      return;
                                  end
     
@@ -71,7 +70,6 @@ end
     else
         INEEG = pop_select(INEEG, 'nochannel', channels);
         [ALLEEG, OUTEEG, CURRENTSET, com] = pop_newset(ALLEEG, INEEG, CURRENTSET, 'setname', [INEEG.setname '_ChRemoval']);
-        OUTEEG.BadCh = channels;
         eeglab redraw;
     end
         

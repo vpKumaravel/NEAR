@@ -4,7 +4,7 @@
 % and/or developmental EEG. This pop function is to identify and remove bad
 % channels.
 %
-% Method 1: Detect and Remove Flat Lines (modified the code - clean_FlatLines from ASR)
+% Method 1: Detect and Remove Flat Lines (reused the code - clean_FlatLines from ASR)
 % Method 2: Detect Outlier channels using Local Outlier Factor (LOF)
 % Method 3 (optional): Remove Outlier channels using Periodogram Analysis
 %
@@ -45,6 +45,7 @@
 % You should have received a copy of the GNU General Public License
 % along with this program; if not, write to the Free Software
 % Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+%
 
 %------------- BEGIN CODE -------------------------------------------------
 
@@ -116,6 +117,8 @@ if(~isempty(EEG.data))
             { 'style' 'text' 'string' 'Distance Metric' 'tag' 'strOut' } ...
             { 'style' 'edit' 'tag' 'dist_metric' 'string' 'seuclidean'  'enable' 'on' } ...
             { 'style' 'text' 'string' 'Other possible distance metrics: euclidean, spearman, correlation' }...
+            { 'style' 'text' 'string' 'Adaptive thresholding if detected bad channels exceed % of total channels' 'tag' 'strOut' } ...
+            { 'style' 'edit' 'tag' 'dist_metric' 'string' '10'  'enable' 'on' } ...
             {} ...
             { 'style' 'checkbox' 'string' 'Detect Motion Noise (Spectral Analysis)' 'FontWeight' 'bold' 'value' 0  'callback' cb_imotion} ...
             { 'style' 'text' 'string' 'Frequency Band (Hz)' } ...
@@ -128,7 +131,7 @@ if(~isempty(EEG.data))
             { 'style' 'edit' 'tag' 'powthr_wav' 'string' '4.5'  'enable' 'on'} ...
             };
         
-        geom = { [1] [1] [5 3.5] [1] [1] [5 3.5] [5 3.5] [1] [1] [1] [5 3.5] [5 3.5] [5 3.5] [5 3.5]};
+        geom = { [1] [1] [5 3.5] [1] [1] [5 3.5] [5 3.5]  [1] [5 3.5] [1] [1] [5 3.5] [5 3.5] [5 3.5] [5 3.5]};
         result = inputgui( 'uilist', uilist, 'geometry', geom,  'title', 'NEAR - Channel Rejection Tool', ...
             'helpcom', 'pophelp(''pop_NEAR'')');
         
@@ -139,8 +142,8 @@ if(~isempty(EEG.data))
         end
         
         options = { 'isFlat' result{1} 'flatWin' str2num(result{2}) 'isOutlier' result{3} 'cutoff_lof' str2num(result{4})  ...    
-        'dist_metric', result{5}, 'isMuscle' result{6} 'frange' eval( [ '[' result{7} ']' ] ) 'win_size_p' str2num(result{8})  'win_ov_p'  str2num(result{9})...
-            'pthresh' str2num(result{10})};
+        'dist_metric', result{5} 'isAdapt' str2num(result{6}) 'isMuscle' result{7} 'frange' eval( [ '[' result{8} ']' ] ) 'win_size_p' str2num(result{9})  'win_ov_p'  str2num(result{10})...
+            'pthresh' str2num(result{11})};
         
     else
         options = varargin;
@@ -151,6 +154,7 @@ if(~isempty(EEG.data))
         'isOutlier' , 'real' [] 1;
         'cutoff_lof' 'real'   []                      2.5;
         'dist_metric', 'string' [] 'seuclidean';
+        'isAdapt', 'real' [] 10;
         'isMuscle' , 'real' [] 1;
         'frange' 'real' [] [1 20];
        'win_size_p', 'integer' [] 1;
@@ -162,7 +166,7 @@ if(~isempty(EEG.data))
     
     opt.isPlot = 1;
     % Call the methods function to compute bad channels using the selected methods
-    [EEG, red_chFlat, red_ch, yellow_ch] = NEAR_getBadChannels(EEG,opt.isFlat, opt.flatWin,  opt.isOutlier, opt.cutoff_lof, opt.dist_metric, opt.isMuscle, opt.frange, opt.win_size_p, opt.win_ov_p, opt.pthresh, opt.isPlot);
+    [EEG, red_chFlat, red_ch, yellow_ch] = NEAR_getBadChannels(EEG,opt.isFlat, opt.flatWin,  opt.isOutlier, opt.cutoff_lof, opt.dist_metric, opt.isAdapt, opt.isMuscle, opt.frange, opt.win_size_p, opt.win_ov_p, opt.pthresh, opt.isPlot);
     
     
     if (~isempty(red_chFlat) || ~isempty(red_ch) || ~isempty(yellow_ch))
