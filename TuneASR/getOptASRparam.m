@@ -32,12 +32,10 @@
 % *************************************************************************
 %% README
 
-% REQUIREMENT 1: Assuming these datasets do not contain bad channels
-% if not, please ensure removing them before running this.
-%
-% REQUIREMENT 2: Create a variable called rawEEG for which the following steps to be performed. This variable will be used for interpolation.
-%            a): Import a raw data into the EEGLAB (with the same channel locations as the datasets to be processed eg., s30.set)
-%            b): Execute the command rawEEG = EEG;
+% REQUIREMENT: Ensure adding relevant pre-processing steps such as
+% filtering etc., and define the quality measure to calibrate ASR
+% Parameter.
+
 
 %%
 clc;
