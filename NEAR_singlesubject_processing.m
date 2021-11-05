@@ -74,15 +74,15 @@ params.hpc  = []; % high-pass cut-off frequency in Hz; set to [] if you had set 
 % Segmentation using fixation intervals - parameters begin %
 % N.B: The following parameters can be set to [] if params.isSegt = 0
 params.sname = 'segt_visual_attention.xlsx'; % the visual segmentation coding file
-params.sloc  = 'C:\Users\velu.kumaravel\Desktop\Data Drive\Code\NEAR'; %'C:\\zzz\\yy'; % location of the xlsx file
+params.sloc  = 'yyy'; % location of the xlsx file
 params.look_thr = 4999; % consider only the segments that exceed this threshold+1 in ms to retain
 % Segmentation using fixation intervals - parameters end %
 
 % Parameters for ERP epoching begin %
 
 % N.B: The following parameters can be set to [] if params.isERP = 0
-params.erp_event_markers = {'Cong', 'InCong'}; % enter all the condition markers
-params.erp_epoch_duration = [0 1.2]; % duration of epochs (in seconds)
+params.erp_event_markers = {'Event A', 'Event B'}; % enter all the condition markers
+params.erp_epoch_duration = [x y]; % duration of epochs (in seconds)
 params.erp_remove_baseline = 1; % 0 for no baseline correction; 1 otherwise
 params.baseline_window = [0  200]; % baseline period in ms; leave it empty [] in case of entire epoch baselining
 
@@ -130,8 +130,8 @@ params.isSave = 1; % set to 0 if you do not want the preprocessed data to be sav
 
 %% Define Subject to be analyzed and the File Path
 
-dname = '24 20101208 1453_segt.set'; % name of the dataset
-dloc = 'C:\Users\velu.kumaravel\Google Drive\Group1_mother\ChannelLocations';
+dname = 'xxx.set'; % name of the dataset
+dloc = 'yy';
 %% Run NEAR
 
 
