@@ -41,14 +41,13 @@ addpath(genpath(cd));
 
 %% Step 0: Dataset Parameters 
 
-dname = '24 20101208 1453_segt.set'; % name of the dataset
-%dloc  = 'C:\Users\velu.kumaravel\Desktop\Data Drive\Data\Newborn\Face-like'; % corresponding file location
-dloc = 'C:\Users\velu.kumaravel\Google Drive\Group1_mother\ChannelLocations';
+dname = 'xxx'; % name of the dataset 
+dloc = 'yyy';% corresponding file location
 %% Step 1: User-defined Parameters
 
 isLPF    = 1; % set to 1 if you want to perform Low Pass Filtering
 isHPF    = 1; % set to 1 if you want to perform High Pass Filterting
-isSegt   = 0; % set to 0 if you do not want to segment the data based on newborn's visual attention for the presented stimuli
+isSegt   = 0; % set to 0 if you do not want to segment the data based on baby's attention for the presented visual stimuli
 isERP    = 1; % set to 1 if you want to epoch the data for ERP processing
 isBadCh  = 1; % set to 1 if you want to employ NEAR Bad Channel Detection 
 isBadSeg = 1; % set to 1 if you want to emply NEAR Bad Epochs Rejection/Correction (using ASR)
@@ -72,12 +71,12 @@ hpc  = 0.1; % high-pass cut-off frequency in Hz; set to [] if you had set hptf;
 
 % Segmentation using fixation intervals - parameters begin %
 segt_file = 'segt_visual_attention.xlsx';
-segt_loc  = 'C:\Users\velu.kumaravel\Desktop\Data Drive\Code\NEAR'; %'C:\\zzz\\yy';
+segt_loc  = 'yyy'; %'C:\\zzz\\yy';
 look_thr = 4999; % consider only the segments that exceed this threshold+1 in ms to retain
 % Segmentation using fixation intervals - parameters end %
 
 % Epoch data for ERP datasets
-erp_event_markers = {'Cong', 'InCong'}; % enter all the condition markers
+erp_event_markers = {'Eyes Open', 'Eyes Closed'}; % enter all the condition markers
 erp_epoch_duration = [0 1.2]; % duration of epochs (in seconds)
 erp_remove_baseline = 1; % 0 for no baseline correction; 1 otherwise
 baseline_window = [0  200]; % baseline period in ms; leave it empty [] in case of entire epoch baselining
@@ -108,7 +107,7 @@ pthresh       = 4.5; % Threshold Factor to predict outliers on the computed ener
 
 % Parameters for ASR begin %
 
-rej_cutoff = 24;   % A lower value implies severe removal (Recommended value range: 20 to 30)
+rej_cutoff = 20;   % A lower value implies severe removal (Recommended value range: 20 to 30)
 rej_mode   = 'on'; % Set to 'off' for ASR Correction and 'on for ASR Removal (default: 'on')
 add_reject = 'off'; % Set to 'on' for additional rejection of bad segments if any after ASR processing (default: 'off')
 
