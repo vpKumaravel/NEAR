@@ -14,15 +14,20 @@ Dependencies: <br />
 (1) EEGLAB Software <br />
 (2) Statistics and Machine Learning Toolbox - for knnsearch
 
-Suggestions for a fruitful learning activity:
+Suggestions for a fruitful learning activity: <br />
 <br />
 (1) Read the NEAR_UserManual.pdf file on the repository <br />
-(2) To familiarize with the user parameters, execute the step-by-step preprocessing using **NEAR_Pipeline_Tutorial_v1_0.m** <br />
-(3) To run for a single subject EEG file, use the **NEAR_singlesubject_processing.m** file <br />
-(4) To perform NEAR preprocessing for a batch of EEG files, the **NEAR_batch_processing.m** file can be used <br />
-
-(5) To tune LOF Threshold, you need the ground truth bad channels already. The file calibrateLOFThreshol.m helps you do that. A sample EEG file is also available for a hands-on. <br />
 <br />
+(2) To familiarize with the user parameters, execute the step-by-step preprocessing using **NEAR_Pipeline_Tutorial_v1_0.m** <br />
+<br />
+(3) To run for a single subject EEG file, use the **NEAR_singlesubject_processing.m** file <br />
+<br />
+(4) To perform NEAR preprocessing for a batch of EEG files, the **NEAR_batch_processing.m** file can be used <br />
+<br />
+
+(5) To tune LOF Threshold, you need the ground truth bad channels already. The file calibrateLOFThreshol.m helps you do that. A sample EEG file is also available for a hands-on. 
+<br />
+
 (6) To tune ASR user-defined parameters ASR Cut-off Parameter (k) and ASR Processing Mode (Correction & Removal), use the files in TuneASR as template and customize the code as per your requirements (more details in the comments section of each file). <br />
 
 
