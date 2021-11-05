@@ -305,7 +305,7 @@ if(isAvg)
     EEG = pop_reref( EEG, []);
 else
     if(isempty(reref))
-        warning('Skipping rereferencing as the parameter reref is empty. An example setup: reref = ''Cz''');
+        warning('Skipping rereferencing as the parameter reref is empty. An example setup: reref = {''Cz''} or reref = [30]');
     elseif(isnumeric(reref))
         EEG = pop_reref( EEG, reref);
     else
@@ -317,7 +317,7 @@ end
 
 %% Step 8: Save Data & Report
 
-%% Create output folders to save data
+% Create output folders to save data
 if isSave
     if exist([dloc filesep 'NEAR_Processed'], 'dir') == 0
         mkdir([dloc filesep 'NEAR_Processed'])
