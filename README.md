@@ -14,7 +14,8 @@ Dependencies: <br />
 (1) EEGLAB Software <br />
 (2) Statistics and Machine Learning Toolbox - for knnsearch
 
-The users are first encouraged to <br />
+Suggestions for a fruitful learning activity:
+<br />
 (1) Read the NEAR_UserManual.pdf file on the repository <br />
 (2) To familiarize with the user parameters, execute the step-by-step preprocessing using **NEAR_Pipeline_Tutorial_v1_0.m** <br />
 (3) To run for a single subject EEG file, use the **NEAR_singlesubject_processing.m** file <br />
