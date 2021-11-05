@@ -30,12 +30,16 @@ Suggestions for a fruitful learning activity: <br />
 
 (6) To tune ASR user-defined parameters ASR Cut-off Parameter (_k_) and ASR Processing Mode (_Correction & Removal_), use the files in **TuneASR** as template and customize the code as per your requirements (more details in the comments section of each file). <br />
 
+### Citation   
+```
 @article{V.P. Kumaravel
   title={NEAR: An artifact removal pipeline for human newborn EEG data.},
   author={V.P. Kumaravel, E.Farella, E.Parise, and M.Buiatti},
   journal={Journal of Developmental Cognitive Neuroscience Special Issue (Under Revision)},
   year={2021}
 }
+```
+
 
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. <br />
