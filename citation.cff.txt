@@ -1,6 +1,0 @@
-@article{V.P. Kumaravel
-  title={NEAR: An artifact removal pipeline for human newborn EEG data.},
-  author={V.P. Kumaravel, E.Farella, E.Parise, and M.Buiatti},
-  journal={Journal of Developmental Cognitive Neuroscience Special Issue (Under Revision)},
-  year={2021}
-}
