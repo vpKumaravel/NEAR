@@ -103,12 +103,12 @@ function [signal, red_chFlat, red_ch, yellow_ch, LOF_vec] = NEAR_getBadChannels(
         
         disp('LOF scores are computed successfully');
         
+        thresh_lof_update = thresh_lof;
         if(isempty(isAdapt)) % no adaptive thresholding
             lof_bad_ch = remaining_elec(LOF_vec >= thresh_lof);
         else
             % Adaptive Thresholding for LOF Bad Channel Detection
             N = histcounts(LOF_vec,  [thresh_lof 100],'Normalization', 'probability')*100;
-            thresh_lof_update = thresh_lof;
             while (N >= 10)
                 disp(['More than 10% of channels have an LOF of greater than ' num2str(thresh_lof_update)]);
                 disp('Increasing the threshold by 1');
