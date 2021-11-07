@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Velu Prabhakar"
+  given-names: "Kumaravel"
+- family-names: "Elisabetta"
+  given-names: "Farella"
+- family-names: "Eugenio"
+  given-names: "Parise"
+- family-names: "Marco"
+  given-names: "Buiatti"
+title: "NEAR2021"
+version: 1.0.0
+doi: TBD
+date-released: 2021-11-07
+url: "https://github.com/vpKumaravel/NEAR"
