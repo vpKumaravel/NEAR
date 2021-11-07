@@ -126,7 +126,7 @@ interp_type = 'v4'; % other options to replace 'spherical': 'spacetime', 'invdis
 reref =  {'Cz'}; % reref can also be the channel name.
 
 % Parameter for Re-referencing begin %
-%% Step 2: Import data
+%% Step 2a: Import data
 
 [filepath,name,ext] = fileparts([dloc filesep dname]);
 
@@ -166,7 +166,7 @@ end
 % epoched data to continuous.
 
 if(numel(size(EEG.data)) == 3) 
-    EEG = eeg_epoch2continuous(EEG); % making the data continuous to perform NEAR preprocessig
+    EEG = eeg_epoch2continuous(EEG); % making the data continuous to perform NEAR preprocessing
     isERP = 1; % to later epoch the data
 end
 
@@ -175,6 +175,8 @@ end
 
 if(isLPF)
     EEG = pop_eegfiltnew(EEG, [], lpc, [], 0, [], 0); % low-pass filter
+    % (or)
+    %EEG = pop_eegfiltnew(EEG, 'hicutoff',lpc,'plotfreqz',0);
 end
 
 if(isHPF)
@@ -282,7 +284,7 @@ end
 
 
 
-%% Step 5: Run ASR to correct or remove bad segments
+%% Step 6a: Run ASR to correct or remove bad segments
 
 if(isBadSeg)
     EEG_copy = EEG;
@@ -309,7 +311,7 @@ if(isBadSeg)
     eeglab redraw;
 end
 
-%% Step 5b: ERP analysis (epoching, removing baselining) (Optional)
+%% Step 6b: ERP analysis (epoching, removing baselining) (Optional)
 
 if(isERP)
     try
@@ -323,7 +325,7 @@ if(isERP)
         error('Either Insufficient Data or incomplete parameters for epoching');
     end 
 end                      
-%% Step 6: Interpolate bad channels (Optional)
+%% Step 7: Interpolate bad channels (Optional)
 
 if(isInterp)
     EEG = pop_interp(EEG, origEEG.chanlocs, interp_type); 
@@ -332,7 +334,7 @@ if(isInterp)
 end
 
 
-%% Step 7: Average Reference (Optional)
+%% Step 8: Average Reference (Optional)
 
 if(isempty(reref))
       warning('Skipping rereferencing as the parameter reref is empty. An example setup: reref = {''Cz''} or reref = [30]');
@@ -364,7 +366,7 @@ else
     eeglab redraw;
 end
 
-%% Step 8: Save Data & Report
+%% Step 9: Save Data & Report
 
 % Create output folders to save data
 if isSave
@@ -372,13 +374,10 @@ if isSave
         mkdir([dloc filesep 'NEAR_Processed'])
     end
     
-     if exist([dloc filesep 'NEAR_LOF'], 'dir') == 0
-        mkdir([dloc filesep 'NEAR_LOF'])
-     end
     
     % save LOF values for each channel (as .mat)
     
-    save([[dloc filesep 'NEAR_LOF'] filesep name '_LOF_Values.mat'], 'LOF_vec'); % save .mat format
+    save([[dloc filesep 'NEAR_Processed'] filesep name '_LOF_Values.mat'], 'LOF_vec'); % save .mat format
     
     % Save data 
     EEG = pop_saveset(EEG, 'filename',[name '_NEAR_prep.set'],'filepath', [dloc filesep 'NEAR_Processed']);
