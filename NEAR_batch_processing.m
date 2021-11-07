@@ -41,6 +41,7 @@ clc;
 clear all;
 eeglab;
 
+addpath(genpath(cd));
 
 %% Define User-Parameters here
 
@@ -50,8 +51,8 @@ eeglab;
 
 params.isLPF    = 0; % set to 1 if you want to perform Low Pass Filtering
 params.isHPF    = 0; % set to 1 if you want to perform High Pass Filterting
-params.isSegt   = 0; % set to 0 if you do not want to segment the data based on attention for the presented visual stimuli
-params.isERP    = 1; % set to 1 if you want to epoch the data for ERP processing
+params.isSegt   = 1; % set to 0 if you do not want to segment the data based on newborn's visual attention for the presented stimuli
+params.isERP    = 0; % set to 1 if you want to epoch the data for ERP processing
 params.isBadCh  = 1; % set to 1 if you want to employ NEAR Bad Channel Detection 
 params.isBadSeg = 1; % set to 1 if you want to emply NEAR Bad Epochs Rejection/Correction (using ASR)
 params.isVisIns = 1; % set to 1 if you want to visualize intermediate cleaning of NEAR Cleaning (bad channels + bad segments)
@@ -74,19 +75,9 @@ params.hpc  = []; % high-pass cut-off frequency in Hz; set to [] if you had set 
 % Segmentation using fixation intervals - parameters begin %
 % N.B: The following parameters can be set to [] if params.isSegt = 0
 params.sname = 'segt_visual_attention.xlsx'; % the visual segmentation coding file
-params.sloc  = 'yyy'; % location of the xlsx file
-params.look_thr = 4999; % consider only the segments that exceed this threshold+1 in ms to retain
+params.sloc  = 'C:\Users\velu.kumaravel\Desktop\Data Drive\Code\NEAR_v1_0\NEAR'; % location of the xlsx file
+params.look_thr = 4999; % consider only the segments that exceed this threshold+1 in ms to retain; alternatively can be set to [] if no thresholding is preferred
 % Segmentation using fixation intervals - parameters end %
-
-% Parameters for ERP epoching begin %
-
-% N.B: The following parameters can be set to [] if params.isERP = 0
-params.erp_event_markers = {'Congruent', 'InCongruent'}; % enter all the condition markers
-params.erp_epoch_duration = [0 1.2]; % duration of epochs (in seconds)
-params.erp_remove_baseline = 1; % 0 for no baseline correction; 1 otherwise
-params.baseline_window = [0  200]; % baseline period in ms; leave it empty [] in case of entire epoch baselining
-
-% Parameters for ERP epoching end %
 
 % Parameters for NEAR - Bad Channels Detection begin %
 
@@ -120,21 +111,39 @@ params.add_reject = 'off'; % Set to 'on' for additional rejection of bad segment
 
 % Parameters for NEAR- Bad Segments Correction/Rejection using ASR end %
 
+% Parameters for ERP epoching begin %
+
+% N.B: The following parameters can be set to [] if params.isERP = 0
+params.erp_event_markers = {'Event A', 'Event B'}; % enter all the condition markers
+params.erp_epoch_duration = [0 1200]; % duration of epochs (in seconds)
+params.erp_remove_baseline = 1; % 0 for no baseline correction; 1 otherwise
+params.baseline_window = [0  200]; % baseline period in ms; leave it empty [] in case of entire epoch baselining
+
+% Parameters for ERP epoching end %
+
+% Parameter for interpolation begin %
+
+params.interp_type = 'spherical'; % other values can be 'v4'. Please refer to pop_interp.m for more details.
+
+% Parameter for interpolation end %
+
+
+
 % Parameter for Re-referencing begin %
-params.reref = 124; % if isAvg was set to 0, this parameter must be set.
+params.reref = 30; % if isAvg was set to 0, this parameter must be set.
 %params.reref = {'E124'}; % reref can also be the channel name.
 
 % Parameter for Re-referencing begin %
 
 params.isSave = 1; % set to 0 if you do not want the preprocessed data to be saved
-
 %% Define Subjects to be analyzed and the File Path
 
-% dnames_list = { 's22.set', 's39.set'}; % dataset names list
-% dloc = 'C:\\Users\\velu.kumaravel\\Desktop\\Data Drive\\Data\\Newborn\\Face-like\\'; %'D:\\XXX\\YY';  % dataset location on drive
+dnames_list = { 's22.set', 's39.set'}; % dataset names list
+dloc = 'C:\\Users\\velu.kumaravel\\Desktop\\Data Drive\\Data\\Newborn\\Face-like\\'; % dataset location on drive
+params.chanlocation_file = 'C:\Users\velu.kumaravel\Downloads\eeglab2021.0\eeglab2021.0\sample_locs\GSN129.sfp';
 
-dnames_list = {'xxx.set', 'aaa.set'}; % name of the dataset
-dloc = 'yyy';
+%dnames_list = {'xxx.set', 'aaa.set'}; % name of the dataset
+%dloc = 'yyy';
 %% Run NEAR
 
 for eachSub = 1:length(dnames_list)

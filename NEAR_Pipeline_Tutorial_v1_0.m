@@ -41,14 +41,16 @@ addpath(genpath(cd));
 
 %% Step 0: Dataset Parameters 
 
-dname = 'xxx'; % name of the dataset 
+dname = 'xxx.set'; % name of the dataset with extension (.set or .mff)
 dloc = 'yyy';% corresponding file location
+
+chanlocation_file = 'xxx\eeglab2021.0\sample_locs\GSN-HydroCel-129.sfp';
 %% Step 1: User-defined Parameters
 
 isLPF    = 1; % set to 1 if you want to perform Low Pass Filtering
 isHPF    = 1; % set to 1 if you want to perform High Pass Filterting
 isSegt   = 0; % set to 0 if you do not want to segment the data based on baby's attention for the presented visual stimuli
-isERP    = 1; % set to 1 if you want to epoch the data for ERP processing
+isERP    = 0; % set to 1 if you want to epoch the data for ERP processing
 isBadCh  = 1; % set to 1 if you want to employ NEAR Bad Channel Detection 
 isBadSeg = 1; % set to 1 if you want to emply NEAR Bad Epochs Rejection/Correction (using ASR)
 isVisIns = 1; % set to 1 if you want to visualize intermediate cleaning of NEAR Cleaning (bad channels + bad segments)
@@ -71,8 +73,8 @@ hpc  = 0.1; % high-pass cut-off frequency in Hz; set to [] if you had set hptf;
 
 % Segmentation using fixation intervals - parameters begin %
 segt_file = 'segt_visual_attention.xlsx';
-segt_loc  = 'yyy'; %'C:\\zzz\\yy';
-look_thr = 4999; % consider only the segments that exceed this threshold+1 in ms to retain
+segt_loc  = 'xx';
+look_thr = 4999; % consider only the segments that exceed this threshold+1 in ms to retain. Set it to [] if you do not want to apply thresholding.
 % Segmentation using fixation intervals - parameters end %
 
 % Epoch data for ERP datasets
@@ -113,27 +115,55 @@ add_reject = 'off'; % Set to 'on' for additional rejection of bad segments if an
 
 % Parameters for ASR end %
 
+% Parameter for interpolation begin %
+
+interp_type = 'v4'; % other options to replace 'spherical': 'spacetime', 'invdist' or 'v4' - Reference: pop_interp.m
+
+% Parameter for interpolation end %
+
 % Parameter for Re-referencing begin %
-reref = 10; % if isAvg was set to 0, this parameter must be set.
-%reref = 'E129'; reref can also be the channel name.
+% reref = 30; % alternatively, channel name can be set as follows
+reref =  {'Cz'}; % reref can also be the channel name.
 
 % Parameter for Re-referencing begin %
 %% Step 2: Import data
 
 [filepath,name,ext] = fileparts([dloc filesep dname]);
 
-if(strcmp(ext, '.set')==1)
+if(isempty(ext))
+    error('The file name should contain an extension. e.g., .set');
+    
+elseif(strcmp(ext, '.set')==1)
     
     EEG = pop_loadset('filename',dname,'filepath',[dloc filesep]);
     
+elseif strcmp(ext, '.mff')==1
+    if exist('mff_import', 'file')==0
+        error(['"mffmatlabio" plugin is not available in EEGLAB plugin folder. Please install the plugin to import .mff files' ...
+            ]);
+    else
+        EEG=mff_import([dloc filesep dname]);
+    end
 else
     error('Your data is not of .set format, please edit the import data function appropriate to your data.');
 end
 
+EEG = eeg_checkset(EEG);
 origEEG = EEG; % making a copy of raw data
 eeglab redraw
 
-%% Step 2b: Make the data to continuous if required
+%% Step 2b: Import the channel locations
+
+if(isempty(chanlocation_file))
+    EEG=pop_chanedit(EEG, 'load',{chanlocation_file 'filetype' 'autodetect'});
+    EEG = eeg_checkset( EEG );
+elseif(isempty(EEG.chanlocs))
+    warning('Your data lacks channel location information.');
+end
+
+%% Step 2c: Make the data to continuous if required
+% ASR works only for continuous data, therefore, we are changing the
+% epoched data to continuous.
 
 if(numel(size(EEG.data)) == 3) 
     EEG = eeg_epoch2continuous(EEG); % making the data continuous to perform NEAR preprocessig
@@ -149,14 +179,18 @@ end
 
 if(isHPF)
     if(isempty(hptf))
-        EEG = pop_eegfiltnew(EEG, 'locutoff',hpc,'plotfreqz',1);
+        EEG = pop_eegfiltnew(EEG, 'locutoff',hpc,'plotfreqz',0);
     else
         EEG=clean_drifts(EEG,hptf, []);
     end
 end
 
 
-%% Step 4: Segment data based on newborns' visual attention (Optional)
+%% Step 4: Segment data based on visual attention (Optional)
+% if you have particular requirement, like, you know the time intervals in
+% which data was recorded noisier due to technical faults, for example,
+% you may adapt this part of the pipeline by inserting the time intervals
+% to be retained.
 
 if(isSegt)
     
@@ -183,8 +217,6 @@ if(isSegt)
     eeglab redraw;
 end
 
-
-
 %% Step 5: Run NEAR bad channel detection tool
 
 if (isBadCh)
@@ -195,6 +227,7 @@ if (isBadCh)
     
     if(isVisIns) 
         % visual inspection and reject using 'Reject' button on the GUI
+        % if executed as a block execution (i.e., only step 5)
         colors = repmat({'k'},1, EEG.nbchan);
         
         for i = 1:length(periodo_ch)
@@ -263,6 +296,7 @@ if(isBadSeg)
     end
     
     tot_samples_modified = (length(find(modified_mask)) * 100) / EEG_copy.pnts;
+    change_in_RMS = -(mean(rms(EEG.data,2)) - mean(rms(EEG_copy.data,2))*100)/mean(rms(EEG_copy.data,2)); % in percentage
     
     if(isVisIns)
         try
@@ -292,7 +326,7 @@ end
 %% Step 6: Interpolate bad channels (Optional)
 
 if(isInterp)
-    EEG = pop_interp(EEG, origEEG.chanlocs, 'spherical');
+    EEG = pop_interp(EEG, origEEG.chanlocs, interp_type); 
     [ALLEEG, EEG, CURRENTSET, com] = pop_newset(ALLEEG, EEG, CURRENTSET, 'setname', [EEG.setname '_Int']);
     eeglab redraw;
 end
@@ -300,19 +334,34 @@ end
 
 %% Step 7: Average Reference (Optional)
 
-
-if(isAvg)
-    EEG = pop_reref( EEG, []);
+if(isempty(reref))
+      warning('Skipping rereferencing as the parameter reref is empty. An example setup: reref = {''Cz''} or reref = [30]');
 else
-    if(isempty(reref))
-        warning('Skipping rereferencing as the parameter reref is empty. An example setup: reref = {''Cz''} or reref = [30]');
-    elseif(isnumeric(reref))
-        EEG = pop_reref( EEG, reref);
-    else
-        labels = {EEG.chanlocs.labels};
-        ch_idx = find(cellfun(@(x)isequal(x, reref),labels));
-        EEG = pop_reref( EEG, ch_idx);
+    if(isAvg) % average referencing
+        
+         if(isnumeric(reref))
+             EEG = pop_chanedit(EEG, 'setref',{1:EEG.nbchan, reref});
+         else 
+             labels = {EEG.chanlocs.labels};
+             ch_idx = find(cellfun(@(x)isequal(x, cell2mat(reref)),labels));
+             if(isempty(ch_idx)); warning('The reference channel label does not exist in the dataset. Please check the channel locations file.');end
+             EEG = pop_chanedit(EEG, 'setref',{1:EEG.nbchan, ch_idx});
+         end
+        EEG = pop_reref( EEG, []);
+   
+    else % otherwise
+        
+        if(isnumeric(reref))
+            EEG = pop_reref( EEG, reref);
+        else
+            labels = {EEG.chanlocs.labels};
+            ch_idx = find(cellfun(@(x)isequal(x, reref),labels));
+            if(isempty(ch_idx)); warning('The reference channel label does not exist in the dataset. Please check the channel locations file.');end
+            EEG = pop_reref( EEG, ch_idx);
+        end
+        
     end
+    eeglab redraw;
 end
 
 %% Step 8: Save Data & Report
@@ -323,7 +372,15 @@ if isSave
         mkdir([dloc filesep 'NEAR_Processed'])
     end
     
-    % Save data on the same location dloc
+     if exist([dloc filesep 'NEAR_LOF'], 'dir') == 0
+        mkdir([dloc filesep 'NEAR_LOF'])
+     end
+    
+    % save LOF values for each channel (as .mat)
+    
+    save([[dloc filesep 'NEAR_LOF'] filesep name '_LOF_Values.mat'], 'LOF_vec'); % save .mat format
+    
+    % Save data 
     EEG = pop_saveset(EEG, 'filename',[name '_NEAR_prep.set'],'filepath', [dloc filesep 'NEAR_Processed']);
     
 end
@@ -373,13 +430,14 @@ if isReport
     end
     
     if(isBadSeg)
-        report.NEAR_BadSegments = {['For the given ASR Parameter ' num2str(rej_cutoff) ', about ' num2str(tot_samples_modified) '% of samples are modified/rejected']};
+        report.NEAR_BadSegments = {['For the given ASR Parameter ' num2str(rej_cutoff) ', about ' num2str(tot_samples_modified) '% of samples are modified/rejected.'...
+            ' About ' num2str(change_in_RMS) '% of RMS variance is reduced by ASR']};
     else
         report.NEAR_BadSegments = {'No bad epochs correction/rejection is employed'};
     end
     
     if(isInterp)
-        report.Interpolation = {['Spherical interpolation is done for the missing channels (if any): ' num2str(badChans)]};
+        report.Interpolation = {[interp_type ' interpolation is done for the missing channels (if any): ' num2str(badChans)]};
     else
         report.Interpolation = {'No Interpolation is applied'};
     end
@@ -393,7 +451,7 @@ if isReport
             else
                 refch = cell2mat(reref);
             end
-            report.Rerefencing = {['Re-referencing is performed with respec to the channel: ' refch]};
+            report.Rerefencing = {['Re-referencing is performed with respect to the channel: ' refch]};
         end
         
     else

@@ -31,13 +31,14 @@ function [outEEG] = run_NEAR(dname, dloc, params, ALLEEG)
 % First Version: May 2021; Last revision: Nov, 4, 2021
 
 % parameter extraction
+
 isLPF         = params.isLPF;
 isHPF         = params.isHPF;
 isSegt        = params.isSegt;
-isERP         = params.isERP;
 isBadCh       = params.isBadCh;
 isVisIns      = params.isVisIns;
 isBadSeg      = params.isBadSeg;
+isERP         = params.isERP;
 isInterp      = params.isInterp;
 isAvg         = params.isAvg;
 isReport      = params.isReport;
@@ -50,11 +51,6 @@ hpc           = params.hpc;
 
 look_thr      = params.look_thr;
 
-erp_em        = params.erp_event_markers; 
-erp_ed        = params.erp_epoch_duration; 
-erp_rb        = params.erp_remove_baseline; 
-erp_bw        = params.baseline_window; 
-
 isFlat        = params.isFlat; 
 flatWin       = params.flatWin; 
 isLOF         = params.isLOF; 
@@ -66,23 +62,54 @@ frange        = params.frange;
 winsize       = params.winsize;
 winov         = params.winov;
 pthresh       = params.pthresh;
+
 rej_cutoff    = params.rej_cutoff;
 rej_mode      = params.rej_mode;
 add_reject    = params.add_reject;
+
+erp_em        = params.erp_event_markers; 
+erp_ed        = params.erp_epoch_duration; 
+erp_rb        = params.erp_remove_baseline; 
+erp_bw        = params.baseline_window; 
+
+interp_type   = params.interp_type;
+
 reref         = params.reref;
+
 
 addpath(genpath(pwd)); % Adding all subfolders to the current directory
 
 % import data
 [filepath,name,ext] = fileparts([dloc filesep dname]);
 
-if(strcmp(ext, '.set')==1)
-    EEG = pop_loadset('filename',dname,'filepath',[dloc filesep]);   
+if(isempty(ext))
+    error('The file name should contain an extension. e.g., .set');
+    
+elseif(strcmp(ext, '.set')==1)
+    
+    EEG = pop_loadset('filename',dname,'filepath',[dloc filesep]);
+    
+elseif strcmp(ext, '.mff')==1
+    if exist('mff_import', 'file')==0
+        error(['"mffmatlabio" plugin is not available in EEGLAB plugin folder. Please install the plugin to import .mff files' ...
+            ]);
+    else
+        EEG=mff_import([dloc filesep dname]);
+    end
 else
     error('Your data is not of .set format, please edit the import data function appropriate to your data.');
 end
 
+EEG = eeg_checkset(EEG);
 origEEG = EEG; % making a copy of raw data
+
+% Import channel locations
+if(isfield(params,'chanlocation_file') && isempty(params.chanlocation_file))
+    EEG=pop_chanedit(EEG, 'load',{params.chanlocation_file 'filetype' 'autodetect'});
+    EEG = eeg_checkset( EEG );
+elseif(isempty(EEG.chanlocs))
+    warning('Your data lacks channel location information.');
+end
 
 if(numel(size(EEG.data)) == 3) 
     EEG = eeg_epoch2continuous(EEG); % making the data continuous to perform NEAR preprocessig
@@ -196,7 +223,10 @@ if(isBadSeg)
     end
     
     tot_samples_modified = (length(find(modified_mask)) * 100) / EEG_copy.pnts;
-    
+    tot_samples_modified = round(tot_samples_modified * 100) / 100;
+    change_in_RMS = -(mean(rms(EEG.data,2)) - mean(rms(EEG_copy.data,2))*100)/mean(rms(EEG_copy.data,2)); % in percentage
+    change_in_RMS = round(change_in_RMS * 100) / 100;
+     
     if(isVisIns)
         try
             vis_artifacts(EEG,EEG_copy);
@@ -221,22 +251,36 @@ if(isERP)
 end 
     
 if(isInterp)
-    EEG = pop_interp(EEG, origEEG.chanlocs, 'spherical');
+    EEG = pop_interp(EEG, origEEG.chanlocs, interp_type);
     fprintf('\nMissed channels are spherically interpolated\n');
 end
 
 
-if(isAvg)
-    EEG = pop_reref( EEG, []);
+if(isempty(reref))
+      warning('Skipping rereferencing as the parameter reref is empty. If you wish to re-reference the data, set reref = {''Cz''} or reref = [30]');
 else
-    if(isempty(reref))
-        warning('Skipping rereferencing as the parameter reref is empty. An example setup: reref = ''Cz''');
-    elseif(isnumeric(reref))
-        EEG = pop_reref( EEG, reref);
-    else
-        labels = {EEG.chanlocs.labels};
-        ch_idx = find(cellfun(@(x)isequal(x, reref),labels));
-        EEG = pop_reref( EEG, ch_idx);
+    if(isAvg) % average referencing
+        
+         if(isnumeric(reref))
+             EEG = pop_chanedit(EEG, 'setref',{1:EEG.nbchan, reref});
+         else 
+             labels = {EEG.chanlocs.labels};
+             ch_idx = find(cellfun(@(x)isequal(x, cell2mat(reref)),labels));
+             if(isempty(ch_idx)); warning('The reference channel label does not exist in the dataset. Please check the channel locations file.');end
+             EEG = pop_chanedit(EEG, 'setref',{1:EEG.nbchan, ch_idx});
+         end
+        EEG = pop_reref( EEG, []);
+   
+    else % otherwise
+        
+        if(isnumeric(reref))
+            EEG = pop_reref( EEG, reref);
+        else
+            labels = {EEG.chanlocs.labels};
+            ch_idx = find(cellfun(@(x)isequal(x, reref),labels));
+            if(isempty(ch_idx)); warning('The reference channel label does not exist in the dataset. Please check the channel locations file.');end
+            EEG = pop_reref( EEG, ch_idx);
+        end
     end
 end
 
@@ -245,7 +289,15 @@ if isSave
         mkdir([dloc filesep 'NEAR_Processed'])
     end
     
-    % Save data on the same location dloc
+     if exist([dloc filesep 'NEAR_LOF'], 'dir') == 0
+        mkdir([dloc filesep 'NEAR_LOF'])
+     end
+    
+    % save LOF values for each channel (as .mat)
+    
+    save([[dloc filesep 'NEAR_LOF'] filesep name '_LOF_Values.mat'], 'LOF_vec'); % save .mat format
+    
+    % Save data 
     EEG = pop_saveset(EEG, 'filename',[name '_NEAR_prep.set'],'filepath', [dloc filesep 'NEAR_Processed']);
     
 end
@@ -280,9 +332,9 @@ if isReport
     end
      
     if(isERP)
-        tmp = [erp_em',[repmat({' , '},numel(erp_em)-1,1);{[]}]]';
+        tmp = [erp_event_markers',[repmat({' , '},numel(erp_event_markers)-1,1);{[]}]]';
         events = [tmp{:}];
-        report.ERP = {['The data is epoched with respect to events [' events '] for the duration [' num2str(erp_ed) '] s.']};
+        report.ERP = {['The data is epoched with respect to events [' events '] for the duration [' num2str(erp_epoch_duration) '] s.']};
     else
         report.ERP = {'No segmentation based on LookTimes is applied'};
     end
@@ -295,13 +347,14 @@ if isReport
     end
     
     if(isBadSeg)
-        report.NEAR_BadSegments = {['For the given ASR Parameter ' num2str(rej_cutoff) ', about ' num2str(tot_samples_modified) '% of samples are modified/rejected']};
+        report.NEAR_BadSegments = {['For the given ASR Parameter ' num2str(rej_cutoff) ', about ' num2str(tot_samples_modified) '% of samples are modified/rejected.'...
+            ' About ' num2str(change_in_RMS) '% of RMS variance is reduced by ASR']};
     else
         report.NEAR_BadSegments = {'No bad epochs correction/rejection is employed'};
     end
     
     if(isInterp)
-        report.Interpolation = {['Spherical interpolation is done for the missing channels (if any): ' num2str(badChans)]};
+        report.Interpolation = {[interp_type ' interpolation is done for the missing channels (if any): ' num2str(badChans)]};
     else
         report.Interpolation = {'No Interpolation is applied'};
     end
