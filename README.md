@@ -16,16 +16,16 @@ Dependencies: <br />
 
 Suggestions for a fruitful learning activity: <br />
 <br />
-(1) Read the NEAR_UserManual.pdf file on the repository <br />
+(1) Please read the NEAR_UserManual.pdf file on the repository <br />
 <br />
-(2) To familiarize with the user parameters, execute the step-by-step preprocessing using **NEAR_Pipeline_Tutorial_v1_0.m** <br />
+(2) To familiarize with the user parameters, execute the step-by-step preprocessing using **NEAR_Pipeline_Tutorial_v1_0.m**. You may also refer to the appendix of our manuscript. <br />
 <br />
-(3) To run NEAR for a single subject EEG file, use the **NEAR_singlesubject_processing.m** file <br />
+(3) To run NEAR for a single subject EEG file, please use the **NEAR_singlesubject_processing.m** file <br />
 <br />
 (4) To perform NEAR preprocessing for a batch of EEG files, the **NEAR_batch_processing.m** file can be used <br />
 <br />
 
-(5) To tune LOF Threshold, you need the ground truth bad channels already. The file calibrateLOFThreshold.m in **tuneLOF** folder helps you do that. A sample EEG file is also available for a hands-on experience.
+(5) To tune LOF Threshold, you need the ground truth bad channels already. By default, F1 Score is used as the quality metric. If you prefer accuracy, or precision/recall, the code can be easily modified. The file calibrateLOFThreshold.m in **tuneLOF** folder helps you do that. A sample EEG file is also available for a hands-on experience. ;-)
 <br />
 
 (6) To tune ASR user-defined parameters ASR Cut-off Parameter (_k_) and ASR Processing Mode (_Correction & Removal_), use the files in **TuneASR** as template and customize the code as per your requirements (more details in the comments section of each file). <br />
@@ -40,7 +40,7 @@ You should have received a copy of the GNU General Public License along with thi
 
 ### Citation   
 ```
-@article{V.P. Kumaravel
+@article{NEAR2021
   title={NEAR: An artifact removal pipeline for human newborn EEG data.},
   author={V.P. Kumaravel, E.Farella, E.Parise, and M.Buiatti},
   journal={Journal of Developmental Cognitive Neuroscience Special Issue (Under Revision)},
