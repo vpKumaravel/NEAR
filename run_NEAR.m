@@ -79,11 +79,12 @@ reref         = params.reref;
 
 addpath(genpath(pwd)); % Adding all subfolders to the current directory
 
-% import data
+%% import data
+
 [filepath,name,ext] = fileparts([dloc filesep dname]);
 
 if(isempty(ext))
-    error('The file name should contain an extension. e.g., .set');
+    error('The file name should contain an extension. e.g., ''mydata.egi''');
     
 elseif(strcmp(ext, '.set')==1)
     
@@ -96,14 +97,31 @@ elseif strcmp(ext, '.mff')==1
     else
         EEG=mff_import([dloc filesep dname]);
     end
+    
+elseif strcmp(ext, '.raw')==1
+    if exist('pop_fileio', 'file')==0
+        error(['"pop_fileio" plugin is not available in EEGLAB plugin folder. Please install the plugin to import .mff files' ...
+            ]);
+    else
+        EEG = pop_fileio([dloc filesep dname], 'dataformat','auto');
+    end
+    
+elseif strcmp(ext, '.edf')==1
+    if exist('pop_biosig', 'file')==0
+        error(['"pop_biosig" plugin is not available in EEGLAB plugin folder. Please install the plugin to import .edf files' ...
+            ]);
+    else    
+        EEG = pop_biosig([dloc filesep dname]);
+    end
+    
 else
-    error('Your data is not of .set format, please edit the import data function appropriate to your data.');
+    error('Your data is not of .set/.mff/.raw/.edf format, please edit the import data function appropriate to your data.');
 end
 
 EEG = eeg_checkset(EEG);
 origEEG = EEG; % making a copy of raw data
 
-% Import channel locations
+%% Import channel locations
 if(isfield(params,'chanlocation_file') && isempty(params.chanlocation_file))
     EEG=pop_chanedit(EEG, 'load',{params.chanlocation_file 'filetype' 'autodetect'});
     EEG = eeg_checkset( EEG );
@@ -111,13 +129,15 @@ elseif(isempty(EEG.chanlocs))
     warning('Your data lacks channel location information.');
 end
 
+%% making the data continuous to perform NEAR preprocessing
+
 if(numel(size(EEG.data)) == 3) 
-    EEG = eeg_epoch2continuous(EEG); % making the data continuous to perform NEAR preprocessig
+    EEG = eeg_epoch2continuous(EEG); % 
     isERP = 1; % to later epoch the data
 end
 
 
-% filter data
+%% filter data
 if(isLPF)
     EEG = pop_eegfiltnew(EEG, [], lpc, [], 0, [], 0); % low-pass filter
     fprintf('\nData is low-pass filtered\n');
@@ -133,7 +153,7 @@ if(isHPF)
     fprintf('\nData is high-pass filtered\n');
 end
 
-% segment data using fixation intervals (Look Times)
+%% segment data using fixation intervals (Look Times) or bad intervals known apriori
 if(isSegt)
     if(~isempty(params.sname) && ~isempty(params.sloc))
         try
@@ -159,6 +179,7 @@ if(isSegt)
     fprintf('\nSegmentation is done\n');
 end
 
+%% NEAR Bad Channel Detection
 if (isBadCh)
     
     [EEG, flat_ch, lof_ch, periodo_ch, LOF_vec, thresh_lof_update] = NEAR_getBadChannels(EEG, isFlat, flatWin, isLOF, thresh_lof, dist_metric, isAdapt, ...
@@ -211,6 +232,7 @@ else
     
 end
 
+%% Bad epochs correction/removal using ASR
 if(isBadSeg)
     EEG_copy = EEG;
     EEG = pop_clean_rawdata(EEG, 'FlatlineCriterion','off','ChannelCriterion','off','LineNoiseCriterion','off', ...
@@ -237,6 +259,7 @@ if(isBadSeg)
     fprintf('\nArtifacted epochs are corrected by ASR algorithm\n');
 end
 
+%% ERP related processing
 if(isERP)
     try
         EEG = pop_epoch( EEG, erp_em, erp_ed, 'epochinfo', 'yes');
@@ -249,13 +272,15 @@ if(isERP)
         error('Either Insufficient Data or incomplete parameters for epoching');
     end 
 end 
-    
+ 
+%% Interpolation
+
 if(isInterp)
     EEG = pop_interp(EEG, origEEG.chanlocs, interp_type);
     fprintf('\nMissed channels are spherically interpolated\n');
 end
 
-
+%% Re-referencing
 if(isempty(reref))
       warning('Skipping rereferencing as the parameter reref is empty. If you wish to re-reference the data, set reref = {''Cz''} or reref = [30]');
 else
@@ -284,6 +309,7 @@ else
     end
 end
 
+%% Saving and reporting
 if isSave
     if exist([dloc filesep 'NEAR_Processed'], 'dir') == 0
         mkdir([dloc filesep 'NEAR_Processed'])
@@ -347,8 +373,8 @@ if isReport
     end
     
     if(isBadSeg)
-        report.NEAR_BadSegments = {['For the given ASR Parameter ' num2str(rej_cutoff) ', about ' num2str(tot_samples_modified) '% of samples are modified/rejected.'...
-            ' About ' num2str(change_in_RMS) '% of RMS variance is reduced by ASR']};
+        report.NEAR_BadSegments = {['For the given ASR Parameter ' num2str(rej_cutoff) ', about ' num2str(tot_samples_modified) ' % of samples are modified/rejected.'...
+            ' About ' num2str(change_in_RMS) ' % of RMS variance is reduced by ASR.']};
     else
         report.NEAR_BadSegments = {'No bad epochs correction/rejection is employed'};
     end

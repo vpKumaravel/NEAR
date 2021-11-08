@@ -30,7 +30,8 @@
 % *************************************************************************
 %% Clear variable space and run eeglab
 
-% addpath(genpath(('...')) % Enter the path of the EEGLAB folder in this line
+
+addpath(genpath(('...')) % Enter the path of the EEGLAB folder in this line
 
 clc;
 clear all;
@@ -41,7 +42,7 @@ addpath(genpath(cd));
 
 %% Step 0: Dataset Parameters 
 
-dname = 'xxx.set'; % name of the dataset with extension (.set or .mff)
+dname = 'xxx.set'; % name of the dataset with extension (.set, .mff, .raw, .edf)
 dloc = 'yyy';% corresponding file location
 
 chanlocation_file = 'xxx\eeglab2021.0\sample_locs\GSN-HydroCel-129.sfp';
@@ -144,8 +145,25 @@ elseif strcmp(ext, '.mff')==1
     else
         EEG=mff_import([dloc filesep dname]);
     end
+    
+elseif strcmp(ext, '.raw')==1
+    if exist('pop_fileio', 'file')==0
+        error(['"pop_fileio" plugin is not available in EEGLAB plugin folder. Please install the plugin to import .mff files' ...
+            ]);
+    else
+        EEG = pop_fileio([dloc filesep dname], 'dataformat','auto');
+    end
+    
+elseif strcmp(ext, '.edf')==1
+    if exist('pop_biosig', 'file')==0
+        error(['"pop_biosig" plugin is not available in EEGLAB plugin folder. Please install the plugin to import .edf files' ...
+            ]);
+    else    
+        EEG = pop_biosig([dloc filesep dname]);
+    end
+    
 else
-    error('Your data is not of .set format, please edit the import data function appropriate to your data.');
+    error('Your data is not of .set/.mff/.raw/.edf format, please edit the import data function appropriate to your data.');
 end
 
 EEG = eeg_checkset(EEG);
