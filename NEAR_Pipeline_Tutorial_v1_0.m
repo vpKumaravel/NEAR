@@ -363,20 +363,22 @@ else
              EEG = pop_chanedit(EEG, 'setref',{1:EEG.nbchan, reref});
          else 
              labels = {EEG.chanlocs.labels};
-             ch_idx = find(cellfun(@(x)isequal(x, cell2mat(reref)),labels));
-             if(isempty(ch_idx)); warning('The reference channel label does not exist in the dataset. Please check the channel locations file.');end
+             % = find(cellfun(@(x)isequal(x, cell2mat(reref)),labels));
+             ch_idx = find(ismember(labels, reref)); %optimized code
+             if(isempty(ch_idx)); warning('The reference channel label(s) does not exist in the dataset. Please check the channel locations file.');end
              EEG = pop_chanedit(EEG, 'setref',{1:EEG.nbchan, ch_idx});
          end
         EEG = pop_reref( EEG, []);
-   
+
     else % otherwise
         
         if(isnumeric(reref))
             EEG = pop_reref( EEG, reref);
         else
             labels = {EEG.chanlocs.labels};
-            ch_idx = find(cellfun(@(x)isequal(x, reref),labels));
-            if(isempty(ch_idx)); warning('The reference channel label does not exist in the dataset. Please check the channel locations file.');end
+            %ch_idx = find(cellfun(@(x)isequal(x, reref),labels));
+            ch_idx = find(ismember(labels, reref)); %optimized code for multi-labelled cell string array
+            if(isempty(ch_idx)); warning('The reference channel label(s) does not exist in the dataset. Please check the channel locations file.');end
             EEG = pop_reref( EEG, ch_idx);
         end
         
