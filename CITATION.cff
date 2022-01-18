@@ -9,8 +9,8 @@ authors:
   given-names: "Parise"
 - family-names: "Marco"
   given-names: "Buiatti"
-title: "NEAR2021"
+title: "NEAR: An artifact removal pipeline for human newborn EEG data"
 version: 1.0.0
 doi: https://doi.org/10.1016/j.dcn.2022.101068
-date-released: 2021-11-07
+date-released: 2022-01-15
 url: "https://github.com/vpKumaravel/NEAR"
