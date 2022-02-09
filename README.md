@@ -37,7 +37,7 @@ NEAR detects bad channels using 3 methods (indicated as 3 checkboxes in the GUI)
 **3c)** Enter the overlapping factor (between 0 and 1, 0 indicates [no overlapping])
 **3d)** Enter the SD threshold to detect bad channels from the computed power values.
 
-Okay, we set the parameters. Now, click on "OK". 
+Okay, we have now set the parameters. Now, click on "OK". 
 (It might take a few minutes to set up parallel toolbox in MATLAB, when you run for the first time).
 
 Note that LOF is computed only on "non-flat-line" channels i.e., channels detected by method 1) will not be included for LOF analysis, because they are just [flat].
