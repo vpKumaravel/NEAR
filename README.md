@@ -64,9 +64,10 @@ Now, you find all the "RED" channels listed over here. You might add or remove s
 [ALLEEG,EEG,CURRENTSET,com] = pop_NEAR(ALLEEG,EEG,CURRENTSET, 'isFlat',1,'flatWin',5,'isOutlier',1,'cutoff_lof',2.5,'dist_metric','seuclidean','isAdapt',10,'isMuscle',1,'frange',[1 20] ,'win_size_p',1,'win_ov_p',0.66,'pthresh',4.5);
 ```
 
-(please use command-line execution when you [know] your parameters!)
+(please use command-line execution with prompt attention on the parameters!)
 
-**How to use NEAR as an automated pipeline?**
+**To use NEAR as an automated pipeline**
+
 <br />
 (1) Please read the NEAR_UserManual.pdf file on the repository <br />
 <br />
