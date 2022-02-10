@@ -96,7 +96,7 @@ Disclaimer: This software does not come with any warranty. It is meant only for 
 @article{NEAR2022
   title={NEAR: An artifact removal pipeline for human newborn EEG data.},
   author={V.P. Kumaravel, E.Farella, E.Parise, and M.Buiatti},
-  journal={Journal of Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach)},
+  journal={Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach)},
   doi={https://doi.org/10.1016/j.dcn.2022.101068},
   year={2022}
 }
