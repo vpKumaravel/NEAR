@@ -91,13 +91,45 @@ You should have received a copy of the GNU General Public License along with thi
 
 Disclaimer: This software does not come with any warranty. It is meant only for research purposes and not clinical diagnosis.
 
-### Citation   
+### Citation 
+
+1) BibTeX
+
 ```
-@article{NEAR2022
-  title={NEAR: An artifact removal pipeline for human newborn EEG data.},
+@article{NEAR2022,
+  title={NEAR: An artifact removal pipeline for human newborn EEG data},
   author={V.P. Kumaravel, E.Farella, E.Parise, and M.Buiatti},
   journal={Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach)},
   doi={https://doi.org/10.1016/j.dcn.2022.101068},
   year={2022}
 }
+```
+
+2) APA
+
+```
+V.P. Kumaravel, E.Farella, E.Parise, & M.Buiatti (2022). NEAR: An artifact removal pipeline for human newborn EEG data. Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach).
+```
+
+3) MLA
+
+```
+V.P. Kumaravel, et al. "NEAR: An artifact removal pipeline for human newborn EEG data". Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach). (2022).
+```
+
+4) Chicago
+
+```
+V.P. Kumaravel, , E.Farella, E.Parise, and M.Buiatti. "NEAR: An artifact removal pipeline for human newborn EEG data". Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach) (2022).
+```
+
+5) Harvard
+
+```
+V.P. Kumaravel, E.Farella, E.Parise, and M.Buiatti 2022. NEAR: An artifact removal pipeline for human newborn EEG data. Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach).
+```
+6) Vancouver
+
+```
+V.P. Kumaravel, E.Farella, E.Parise, M.Buiatti. "NEAR: An artifact removal pipeline for human newborn EEG data". Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach) 2022.
 ```
