@@ -61,7 +61,9 @@ Now, you find all the "RED" channels listed over here. You might add or remove s
 **How to run NEAR Bad Channel Rejection Tool in Command-Line?**
 
 ```Matlab
-[ALLEEG,EEG,CURRENTSET,com] = pop_NEAR(ALLEEG,EEG,CURRENTSET, 'isFlat',1,'flatWin',5,'isOutlier',1,'cutoff_lof',2.5,'dist_metric','seuclidean','isAdapt',10,'isMuscle',1,'frange',[1 20] ,'win_size_p',1,'win_ov_p',0.66,'pthresh',4.5);
+[EEG, flat_ch, lof_ch, periodo_ch, LOF_vec, thresh_lof_update] = NEAR_getBadChannels(EEG, 1, 5, 1, 2.5, 'seuclidean', 10, 0,[], [], [], [], 0);
+badChans = sort(unique(union(flat_ch, lof_ch)));
+EEG = pop_select(EEG, 'nochannel', badChans);
 ```
 
 (please use command-line execution with prompt attention on the parameters!)
