@@ -8,24 +8,6 @@
 % Marco Buiatti (marco.buiatti@unitn.it)
 %
 %
-% NEAR uses EEGLAB toolbox. Please execute the following installations:
-%
-% 1) EEGLab:  https://sccn.ucsd.edu/eeglab/downloadtoolbox.php/download.php
-% 2) Download the NEAR pipeline (github link: https://github.com/vpKumaravel/NEAR_TestRep) and extract the files in the folder \eeglabxxx\plugins\..
-% Alternatively, you can use EEGLAB GUI (File - Manage EEGLAB Extensions - Search (for NEAR) - Install/Update)
-%
-%
-% Please cite the following references for in any manuscripts produced utilizing NEAR pipeline:
-%
-% (0) NEAR: To be added.
-%
-% (1) EEGLAB: A Delorme & S Makeig (2004) EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics. Journal of Neuroscience Methods, 134, 9?21.
-%
-% (2) Blue Bird (2021). Density-based Outlier Detection Algorithms (https://github.com/BlueBirdHouse/DDoutlier), GitHub. Retrieved May 19, 2021.
-%
-% (3) Clean_Rawdata Plugin: https://github.com/sccn/clean_rawdata, GitHub. Retrieved May 19, 2021.
-%
-% This pipeline is released under the GNU General Public License version 3.
 %
 % *************************************************************************
 %% Clear variable space and run eeglab
@@ -93,7 +75,7 @@ flatWin = 5; % tolerance level in s(default: 5)
 % b) LOF (density-based)
 isLOF       = 1;  % flag variable to enable or disable LOF method (default: 1)
 dist_metric = 'seuclidean'; % Distance metric to compute k-distance; other option: 'euclidean' (refer to the manuscript for details)
-thresh_lof  = 2.5; % Threshold cut-off for outlier detection on LOF scores (threshold should be at least 1.5 {Breunig† et al., 2000})
+thresh_lof  = 2.5; % Threshold cut-off for outlier detection on LOF scores (threshold should be at least 1.5 {Breunigâ€  et al., 2000})
 isAdapt = 10; % The threshold will be incremented by a factor of 1 if the given threshold detects more than xx % 
                 %of total channels (eg., 10); if this variable left empty [], no adaptive thresholding is enabled.
              
