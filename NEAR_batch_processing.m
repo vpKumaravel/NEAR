@@ -7,26 +7,6 @@
 % Velu Prabhakar Kumaravel (velu.kumaravel@unitn.it / vpr.kumaravel@gmail.com)
 % Marco Buiatti (marco.buiatti@unitn.it)
 %
-%
-% NEAR uses EEGLAB toolbox. Please execute the following installations:
-%
-% 1) EEGLab:  https://sccn.ucsd.edu/eeglab/downloadtoolbox.php/download.php
-% 2) Download the NEAR pipeline (github link: https://github.com/vpKumaravel/NEAR_TestRep) and extract the files in the folder \eeglabxxx\plugins\..
-% Alternatively, you can use EEGLAB GUI (File - Manage EEGLAB Extensions - Search (for NEAR) - Install/Update)
-%
-%
-% Please cite the following references for in any manuscripts produced utilizing NEAR pipeline:
-%
-% (0) NEAR: To be added.
-%
-% (1) EEGLAB: A Delorme & S Makeig (2004) EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics. Journal of Neuroscience Methods, 134, 9?21.
-%
-% (2) Blue Bird (2021). Density-based Outlier Detection Algorithms (https://github.com/BlueBirdHouse/DDoutlier), GitHub. Retrieved May 19, 2021.
-%
-% (3) Clean_Rawdata Plugin: https://github.com/sccn/clean_rawdata, GitHub. Retrieved May 19, 2021.
-%
-% This pipeline is released under the GNU General Public License version 3.
-%
 % *************************************************************************
 
 %%
