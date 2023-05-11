@@ -109,6 +109,6 @@ Disclaimer: This software does not come with any warranty. It is meant only for 
 
 ### Papers used NEAR
 
-Bursting with potential: How sensorimotor beta bursts develop from infancy to adulthood
+[1] Bursting with potential: How sensorimotor beta bursts develop from infancy to adulthood
 Holly Rayson, Maciej J Szul, Perla Khoueiry, Ranjan Debnath, Marine Gautier-Martins, Pier Francesco Ferrari, Nathan Fox, James J Bonaiuto
 bioRxiv 2023.05.09.539976; doi: https://doi.org/10.1101/2023.05.09.539976
