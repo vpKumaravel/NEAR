@@ -107,31 +107,8 @@ Disclaimer: This software does not come with any warranty. It is meant only for 
 }
 ```
 
-2) APA
+### Papers used NEAR
 
-```
-V.P. Kumaravel, E.Farella, E.Parise, & M.Buiatti (2022). NEAR: An artifact removal pipeline for human newborn EEG data. Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach).
-```
-
-3) MLA
-
-```
-V.P. Kumaravel, et al. "NEAR: An artifact removal pipeline for human newborn EEG data". Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach). (2022).
-```
-
-4) Chicago
-
-```
-V.P. Kumaravel, , E.Farella, E.Parise, and M.Buiatti. "NEAR: An artifact removal pipeline for human newborn EEG data". Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach) (2022).
-```
-
-5) Harvard
-
-```
-V.P. Kumaravel, E.Farella, E.Parise, and M.Buiatti 2022. NEAR: An artifact removal pipeline for human newborn EEG data. Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach).
-```
-6) Vancouver
-
-```
-V.P. Kumaravel, E.Farella, E.Parise, M.Buiatti. "NEAR: An artifact removal pipeline for human newborn EEG data". Developmental Cognitive Neuroscience (Special Issue: EEG Methods for Developmental Cognitive Neuroscientists: A Tutorial Approach) 2022.
-```
+Bursting with potential: How sensorimotor beta bursts develop from infancy to adulthood
+Holly Rayson, Maciej J Szul, Perla Khoueiry, Ranjan Debnath, Marine Gautier-Martins, Pier Francesco Ferrari, Nathan Fox, James J Bonaiuto
+bioRxiv 2023.05.09.539976; doi: https://doi.org/10.1101/2023.05.09.539976
