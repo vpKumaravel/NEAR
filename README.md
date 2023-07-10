@@ -93,6 +93,12 @@ You should have received a copy of the GNU General Public License along with thi
 
 Disclaimer: This software does not come with any warranty. It is meant only for research purposes and not clinical diagnosis.
 
+### Tutorials
+
+(1) To tune ASR parameters for your dataset, please refer to the scripts [here](https://github.com/vpKumaravel/vpKumaravel.github.io/wiki/How-to-find-the-optimal-hyperparameter-for-Artifacts-Subspace-Reconstruction-(ASR)-algorithm-to-clean-EEG-artifacts%3F).
+
+(2) To use NEAR as an end-to-end automated pipeline, please refer to this tutorial [page](https://github.com/vpKumaravel/vpKumaravel.github.io/wiki/Tutorial-on-Newborns-EEG-Artifact-Removal-(NEAR)-pipeline).
+
 ### Citation 
 
 1) BibTeX
