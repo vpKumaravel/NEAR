@@ -115,6 +115,6 @@ Disclaimer: This software does not come with any warranty. It is meant only for 
 
 ### Papers used NEAR
 
-[1] Bursting with potential: How sensorimotor beta bursts develop from infancy to adulthood
-Holly Rayson, Maciej J Szul, Perla Khoueiry, Ranjan Debnath, Marine Gautier-Martins, Pier Francesco Ferrari, Nathan Fox, James J Bonaiuto
-bioRxiv 2023.05.09.539976; doi: https://doi.org/10.1101/2023.05.09.539976
+[1] Bursting with Potential: How Sensorimotor Beta Bursts Develop from Infancy to Adulthood
+Holly Rayson, Maciej J. Szul, Perla El-Khoueiry, Ranjan Debnath, Marine Gautier-Martins, Pier F. Ferrari, Nathan Fox, James J. Bonaiuto
+Journal of Neuroscience 6 December 2023, 43 (49) 8487-8503; DOI: 10.1523/JNEUROSCI.0886-23.2023
