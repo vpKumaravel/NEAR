@@ -118,3 +118,5 @@ Disclaimer: This software does not come with any warranty. It is meant only for 
 [1] Bursting with Potential: How Sensorimotor Beta Bursts Develop from Infancy to Adulthood
 Holly Rayson, Maciej J. Szul, Perla El-Khoueiry, Ranjan Debnath, Marine Gautier-Martins, Pier F. Ferrari, Nathan Fox, James J. Bonaiuto
 Journal of Neuroscience 6 December 2023, 43 (49) 8487-8503; DOI: 10.1523/JNEUROSCI.0886-23.2023
+
+[2] Gemignani, J.; Gervain, J. A Within-Subject Multimodal NIRS-EEG Classifier for Infant Data. Sensors 2024, 24, 4161. https://doi.org/10.3390/s24134161
