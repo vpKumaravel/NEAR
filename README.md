@@ -79,9 +79,9 @@ EEG = pop_select(EEG, 'nochannel', badChans);
 <br />
 (4) To perform NEAR preprocessing for a batch of EEG files, the **NEAR_batch_processing.m** file can be used <br />
 <br />
-(5) To tune LOF Threshold, you need the ground truth bad channels already. By default, F1 Score is used as the quality metric. If you prefer accuracy, or precision/recall, the code can be easily modified. The file calibrateLOFThreshold.m in **tuneLOF** folder helps you do that. A sample EEG file is also available for a hands-on experience. ;-)
+(5) To tune LOF Threshold, you need the ground truth bad channels already. By default, F1 Score is used as the quality metric. If you prefer accuracy, or precision/recall, the code can be easily modified. The file calibrateLOFThreshold.m in **tuneLOF** folder helps you do that. A sample EEG file is also available for a hands-on experience. <br />
 <br />
-(6) To tune ASR user-defined parameters ASR Cut-off Parameter (_k_) and ASR Processing Mode (_Correction & Removal_), use the files in **TuneASR** as template and customize the code as per your requirements (more details in the comments section of each file). <br />
+(6) To tune ASR user-defined parameters ASR Cut-off Parameter `k` and ASR Processing Mode (`Correction & Removal`), use the files in **TuneASR** as template and customize the code as per your requirements (more details in the comments section of each file). <br />
 
 
 
@@ -95,9 +95,11 @@ Disclaimer: This software does not come with any warranty. It is meant only for 
 
 ### Tutorials
 
-(1) To tune ASR parameters for your dataset, please refer to the scripts [here](https://github.com/vpKumaravel/vpKumaravel.github.io/wiki/How-to-find-the-optimal-hyperparameter-for-Artifacts-Subspace-Reconstruction-(ASR)-algorithm-to-clean-EEG-artifacts%3F).
+(0) To tune LOF threshold, please refer to the scripts [here](https://github.com/vpKumaravel/vpkumaravel.github.io/wiki/How-to-tune-LOF-threshold-parameter%3F).
 
-(2) To use NEAR as an end-to-end automated pipeline, please refer to this tutorial [page](https://github.com/vpKumaravel/vpKumaravel.github.io/wiki/Tutorial-on-Newborns-EEG-Artifact-Removal-(NEAR)-pipeline).
+(1) To tune ASR parameters for your dataset, please refer to the scripts [here](https://github.com/vpKumaravel/vpkumaravel.github.io/wiki/How-to-tune-ASR-parameter%3F).
+
+(2) To use NEAR as an end-to-end automated pipeline, please refer to this tutorial [page](https://github.com/vpKumaravel/vpkumaravel.github.io/wiki/Step%E2%80%90by-step-Tutorial-on-Newborns-EEG-Artifact-Removal-(NEAR)-pipeline).
 
 ### Citation 
 
