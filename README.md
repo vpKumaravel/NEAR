@@ -68,7 +68,7 @@ EEG = pop_select(EEG, 'nochannel', badChans);
 
 (please use the above command-line execution with prompt attention on the parameters!)
 
-##To use NEAR as an automated pipeline
+## To use NEAR as an automated pipeline
 
 (1) Please read the [NEAR_UserManual](https://github.com/vpKumaravel/NEAR/blob/main/NEAR_UserManual.pdf) file on the repository <br />
 
