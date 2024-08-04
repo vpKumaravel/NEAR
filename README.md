@@ -1,18 +1,18 @@
-# NEAR - Neonatal EEG Artifact Removal
+# NEAR - Newborn EEG Artifact Removal
 
 This is a public repository of NEAR, an artifact removal pipeline for human newborn EEG data. <br />
 
 There are two ways to install NEAR bad channel detection tool: <br />
 
 1) Use EEGLAB GUI (File - Manage EEGLAB Extensions - Search for **NEAR_ChannelReject v1.0** - Install/Update) (OR)
-2) Download the project as .zip file. Extract the .zip file and place the folder "NEAR_ChannelRejection-master" in your EEGLAB/Plugins folder. 
+2) Download .zip file [here](https://github.com/vpKumaravel/detectbadchannelLOF/archive/refs/heads/main.zip). Extract it and place the folder "NEAR_ChannelRejection-master" in your EEGLAB/Plugins folder. 
 
 Installation check: Type 'help pop_NEAR.m' in the command window. If there's no error, you're good to go. <br />
 
 Dependencies: <br />
 
-(1) EEGLAB Software <br />
-(2) Statistics and Machine Learning Toolbox - for knnsearch
+(1) EEGLAB Software (download [here](https://sccn.ucsd.edu/eeglab/download.php)) <br />
+(2) Statistics and Machine Learning Toolbox - to use the `knnsearch` function.
 
 # How to use NEAR Channel Rejection Tool (9/2/2022) <br />
 
@@ -32,7 +32,7 @@ NEAR detects bad channels using 3 methods (indicated as 3 checkboxes in the GUI)
 
 **3) Detect Motion Noise (Spectral Analysis):** Tick this checkbox if you want to perform a frequency analysis (using windowed-periodogram approach) to detect bad channels contaminated with motion noise (that usually in the low-frequency range). We observed that this method didn't bring any significant changes to the overall bad channel detection performance, so we keep it optional. 
 
-**3a)** You enter the frequency band you think important to detect bad channels (for adults, it can be [20 40] Hz, as an example).
+**3a)** You enter the frequency band you think important to detect bad channels (for example, [20 40] Hz).
 **3b)** Enter the window length in seconds 
 **3c)** Enter the overlapping factor (between 0 and 1, 0 indicates [no overlapping])
 **3d)** Enter the SD threshold to detect bad channels from the computed power values.
@@ -66,32 +66,21 @@ badChans = sort(unique(union(flat_ch, lof_ch)));
 EEG = pop_select(EEG, 'nochannel', badChans);
 ```
 
-(please use command-line execution with prompt attention on the parameters!)
+(please use the above command-line execution with prompt attention on the parameters!)
 
-**To use NEAR as an automated pipeline**
+##To use NEAR as an automated pipeline
 
-<br />
-(1) Please read the NEAR_UserManual.pdf file on the repository <br />
-<br />
-(2) To familiarize with the user parameters, execute the step-by-step preprocessing using **NEAR_Pipeline_Tutorial_v1_0.m**. You may also refer to the appendix of our manuscript. <br />
-<br />
-(3) To run NEAR for a single subject EEG file, please use the **NEAR_singlesubject_processing.m** file <br />
-<br />
-(4) To perform NEAR preprocessing for a batch of EEG files, the **NEAR_batch_processing.m** file can be used <br />
-<br />
-(5) To tune LOF Threshold, you need the ground truth bad channels already. By default, F1 Score is used as the quality metric. If you prefer accuracy, or precision/recall, the code can be easily modified. The file calibrateLOFThreshold.m in **tuneLOF** folder helps you do that. A sample EEG file is also available for a hands-on experience. <br />
-<br />
-(6) To tune ASR user-defined parameters ASR Cut-off Parameter `k` and ASR Processing Mode (`Correction & Removal`), use the files in **TuneASR** as template and customize the code as per your requirements (more details in the comments section of each file). <br />
+(1) Please read the [NEAR_UserManual](https://github.com/vpKumaravel/NEAR/blob/main/NEAR_UserManual.pdf) file on the repository <br />
 
+(2) To familiarize with the user parameters, execute the step-by-step preprocessing using [NEAR_Pipeline_Tutorial_v1_0.m](https://github.com/vpKumaravel/NEAR/blob/main/NEAR_Pipeline_Tutorial_v1_0.m). You may also refer to the appendix of our [manuscript](https://www.sciencedirect.com/science/article/pii/S1878929322000123?via%3Dihub#sec0310).
 
+(3) To run NEAR for a single subject EEG file, please use the [NEAR_singlesubject_processing.m](https://github.com/vpKumaravel/NEAR/blob/main/NEAR_singlesubject_processing.m) file 
 
-This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. <br />
+(4) To perform NEAR preprocessing for a batch of EEG files, the [NEAR_batch_processing.m](https://github.com/vpKumaravel/NEAR/blob/main/NEAR_batch_processing.m) file can be used 
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. <br />
+(5) To tune LOF Threshold, you need the ground truth bad channels already. By default, `F1 Score` is used as the quality metric. If you prefer `accuracy`, or `precision/recall`, the code can be easily modified. The file [calibrateLOFThreshold.m](https://github.com/vpKumaravel/NEAR/blob/main/TuneLOF/calibrateLOFThreshold.m) in the **tuneLOF** folder helps you do that. A sample EEG [file](https://github.com/vpKumaravel/NEAR/blob/main/TuneLOF/sub-09_ses-03_task-offlinecatch_run-04_filtered.set) is also available for a hands-on experience. 
 
-You should have received a copy of the GNU General Public License along with this program; if not, see http://www.gnu.org/licenses/.
-
-Disclaimer: This software does not come with any warranty. It is meant only for research purposes and not clinical diagnosis.
+(6) To tune ASR user-defined parameters ASR Cut-off Parameter `k` and ASR Processing Mode (`Correction & Removal`), use the files in **TuneASR** as template and customize the code as per your requirements (more details in the comments section of each file).
 
 ### Tutorials
 
@@ -103,7 +92,7 @@ Disclaimer: This software does not come with any warranty. It is meant only for 
 
 ### Citation 
 
-1) BibTeX
+BibTeX
 
 ```
 @article{NEAR2022,
@@ -122,3 +111,13 @@ Holly Rayson, Maciej J. Szul, Perla El-Khoueiry, Ranjan Debnath, Marine Gautier-
 Journal of Neuroscience 6 December 2023, 43 (49) 8487-8503; DOI: 10.1523/JNEUROSCI.0886-23.2023
 
 [2] Gemignani, J.; Gervain, J. A Within-Subject Multimodal NIRS-EEG Classifier for Infant Data. Sensors 2024, 24, 4161. https://doi.org/10.3390/s24134161
+
+### License
+
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. <br />
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. <br />
+
+You should have received a copy of the GNU General Public License along with this program; if not, see http://www.gnu.org/licenses/.
+
+Disclaimer: This software does not come with any warranty. It is meant only for research purposes and not clinical diagnosis.
