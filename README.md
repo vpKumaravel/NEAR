@@ -110,7 +110,13 @@ BibTeX
 Holly Rayson, Maciej J. Szul, Perla El-Khoueiry, Ranjan Debnath, Marine Gautier-Martins, Pier F. Ferrari, Nathan Fox, James J. Bonaiuto
 Journal of Neuroscience 6 December 2023, 43 (49) 8487-8503; DOI: 10.1523/JNEUROSCI.0886-23.2023
 
-[2] Gemignani, J.; Gervain, J. A Within-Subject Multimodal NIRS-EEG Classifier for Infant Data. Sensors 2024, 24, 4161. https://doi.org/10.3390/s24134161
+[2] A Within-Subject Multimodal NIRS-EEG Classifier for Infant Data
+Gemignani,  Jessica and Gervain,  Judit 
+Sensors 2024, 24, 4161. https://doi.org/10.3390/s24134161
+
+[3] Meanness and deficits in facial affect processing: evidence from the N170 
+Branchadell,  Victoria and Segarra,  Pilar and Poy,  Rosario and Moltó,  Javier and Ribes-Guardiola,  Pablo
+Biological Psychology February 2025; https://doi.org/10.1016/j.biopsycho.2025.108999
 
 ### License
 
