@@ -118,6 +118,10 @@ Sensors 2024, 24, 4161. https://doi.org/10.3390/s24134161
 Branchadell,  Victoria and Segarra,  Pilar and Poy,  Rosario and Moltó,  Javier and Ribes-Guardiola,  Pablo
 Biological Psychology February 2025; https://doi.org/10.1016/j.biopsycho.2025.108999
 
+[4] Exploring the impact of manual and automatic EEG pre-processing methods on interpersonal neural synchrony measures in parent-infant hyperscanning studies,
+Miriam Paola Pili, Livio Provenzi, Lucia Billeci, Valentina Riva, Maddalena Cassa, Eleonora Siri, Giorgia Procissi, Elisa Roberti, Elena Capelli,
+Journal of Neuroscience Methods, Volume 417, 2025; https://doi.org/10.1016/j.jneumeth.2025.110400.
+
 ### License
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. <br />
